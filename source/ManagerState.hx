@@ -47,22 +47,12 @@ class ManagerState extends FlxState
         listGroup = new FlxTypedGroup<FlxText>();
         add(listGroup);
 
-        for (i in 0...listContent.length) {
-			var mod = FlxModding.get(listContent[i]);
-			Paths.dirPath = mod.directory();
-            
+		for (i in 0...listContent.length)
+		{
             var text:FlxText = new FlxText(10, (i * 66) + 100, 0, listContent[i], 24);
             text.ID = i;
             text.setBorderStyle(OUTLINE, FlxColor.BLACK);
-            listGroup.add(text);
-
-			var iconPath = mod.iconDirectory();
-			trace('Loading icon for ${listContent[i]} from: $iconPath');
-            
-			var icon:ContentIcon = new ContentIcon(iconPath);
-			icon.sprTracker = text;
-			iconGame.push(icon);
-			add(icon);
+			listGroup.add(text);
         }
 
         var title:FlxText = new FlxText(0, 0, "Manager Content", 32);
