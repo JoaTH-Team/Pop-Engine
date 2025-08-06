@@ -61,7 +61,7 @@ class DebugCounter extends TextField
 
 	public dynamic function updateText():Void {
 		text = 'FPS: ${currentFPS}'
-		+ ' * Memory: ${flixel.util.FlxStringUtil.formatBytes(memoryMegas)}';
+		+ ' | Memory: ${flixel.util.FlxStringUtil.formatBytes(memoryMegas)}';
 
 		textColor = 0xFFFFFFFF;
 		if (currentFPS < FlxG.drawFramerate * 0.5)

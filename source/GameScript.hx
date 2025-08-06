@@ -10,24 +10,6 @@ using StringTools;
 
 class GameScript extends HScript
 {
-	public function syncVar()
-	{
-		if (LuaScript.taggedVariable == null)
-			return;
-
-		for (tag => value in LuaScript.taggedVariable)
-		{
-			try
-			{
-				set(tag, value);
-			}
-			catch (e:Dynamic)
-			{
-				CrashHandler.reportError(e, 'Failed to sycn all variable from Lua');
-			}
-		}
-	}
-
     public function new(file:String) {
         super(file);
 
@@ -64,7 +46,12 @@ class GameScript extends HScript
         set("FlxColor", CustomFlxColor);
         set("FlxTextAlign", CustomFlxTextAlign);
 
-		syncVar();
+		set("tagLua", function(tag:String)
+		{
+			if (LuaScript.taggedVariable.exists(tag))
+				return LuaScript.taggedVariable.get(tag);
+			return null;
+		});
 
         try {
             executeString(File.getContent(file));
