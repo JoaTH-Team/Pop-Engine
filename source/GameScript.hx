@@ -10,6 +10,24 @@ using StringTools;
 
 class GameScript extends HScript
 {
+	public var locals(get, set):Map<String, {r:Dynamic}>;
+
+	function get_locals():Map<String, {r:Dynamic}>
+		return @:privateAccess interp.locals;
+
+	function set_locals(local):Map<String, {r:Dynamic}>
+		return @:privateAccess interp.locals = local;
+
+	public function getAll():Dynamic
+	{
+		var balls:Dynamic = {};
+		for (i in locals.keys())
+			Reflect.setField(balls, i, get(i));
+		for (i in interp.variables.keys())
+			Reflect.setField(balls, i, get(i));
+		return balls;
+	}
+
     public function new(file:String) {
         super(file);
 
@@ -51,6 +69,14 @@ class GameScript extends HScript
 			if (LuaScript.taggedVariable.exists(tag))
 				return LuaScript.taggedVariable.get(tag);
 			return null;
+		});
+
+		set('importScript', (source:String) ->
+		{
+			var name:String = StringTools.replace(source, '.', '/');
+			var hscript:GameScript = new GameScript(Paths.data(name));
+			hscript.executeFile(Paths.data(name));
+			return hscript.getAll();
 		});
 
         try {
