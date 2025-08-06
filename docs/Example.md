@@ -8,10 +8,6 @@ function create()
     createSprite("myTag", 0, 0, "myImage")
     add("myTag")
 end
-
-function update(elapsed)
-    setMovement("myTag", ["W", "A", "S", "D"], 100) -- move character with speed 100
-end
 ```
 
 #### Create Text (LUA)
@@ -54,13 +50,6 @@ function create() {
     mySprite = new FlxSprite(20, 20);
     mySprite.loadGraphic("myImage");
     add(mySprite);
-}
-
-function update(elapsed:Float) {
-    if (FlxG.keys.pressed.A) mySprite.x -= 1;
-    if (FlxG.keys.pressed.D) mySprite.x += 1;
-    if (FlxG.keys.pressed.W) mySprite.y -= 1;
-    if (FlxG.keys.pressed.S) mySprite.y += 1;
 }
 ```
 

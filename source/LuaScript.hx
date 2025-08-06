@@ -17,6 +17,31 @@ class LuaScript {
     public static var vm:RawPointer<Lua_State> = null;
 
     public static var taggedVariable:Map<String, Dynamic> = new Map<String, Dynamic>();
+
+	public static function sycnVar()
+	{
+		if (GameState.instance == null || GameState.instance.stateHScript == null)
+			return;
+
+		for (tag => value in taggedVariable)
+		{
+			try
+			{
+				GameState.instance.stateHScript.set(tag, value);
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to sycn all variable to HScript');
+			}
+		}
+	}
+
+	public static function setTag(tag:String, value:Dynamic)
+	{
+		setTag(tag, value);
+		sycnVar();
+		return value;
+	}
     
     // Memory management
     private static var maxTaggedObjects:Int = 500;
@@ -34,14 +59,14 @@ class LuaScript {
             var sprite:FlxSprite = new FlxSprite(x, y);
             sprite.loadGraphic(Paths.image(paths));
             sprite.active = true;
-            taggedVariable.set(tag, sprite);
+			setTag(tag, sprite);
             return sprite;
         });
         callback("createText", function (tag:String, x:Float, y:Float, width:Int = 0, text:String = "", size:Int = 8) {
             manageMemory();
             var text:FlxText = new FlxText(x, y, width, text, size);
             text.active = true;
-            taggedVariable.set(tag, text);
+			setTag(tag, text);
             return text;
         });
 

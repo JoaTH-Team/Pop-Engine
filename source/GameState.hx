@@ -7,8 +7,8 @@ using StringTools;
 
 class GameState extends FlxState
 {
-	var stateHScript:GameScript;
-	var stateLua:LuaScript;
+	public var stateHScript:GameScript;
+	public var stateLua:LuaScript;
 
 	public var stateName:String = null;
 
@@ -106,6 +106,14 @@ class GameState extends FlxState
 
 	function callFunction(func:String, args:Array<Dynamic>) {
 		try {
+			if (stateHScript != null && LuaScript.taggedVariable != null)
+			{
+				for (tag => value in LuaScript.taggedVariable)
+				{
+					stateHScript.set(tag, value);
+				}
+			}
+
 			if (stateHScript != null)
 				stateHScript.call(func, args);
 			if (stateLua != null)
