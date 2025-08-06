@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<app title="Pop Engine" file="Pop Engine" main="Main" version="1.0.0" company="Huy1234TH" />
+	<app preloader="flixel.system.FlxPreloader" />
+
+	<window width="800" height="600" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
+	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
+
+	<set name="BUILD_DIR" value="export" />
+	<source path="source" />
+	<assets path="assets" />
+	<assets path="content" />
+
+	<haxelib name="flixel" />
+	<haxelib name="flixel-addons" />
+	<haxelib name="flixel-ui" />
+	<haxelib name="flixel-modding" />
+	<haxelib name="flixel-waveform" />
+	<haxelib name="flixel-controls" />
+	<haxelib name="hscript-joalor64gh" />
+	<haxelib name="hxluajit-wrapper" />
+
+	<haxedef name="FLX_NO_HEALTH" />
+	<haxedef name="FLX_NO_MOUSE" if="mobile" />
+	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
+	<haxedef name="FLX_NO_TOUCH" if="desktop" />
+	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+
+	<haxeflag name="--macro" value="allowPackage('flash')" />
+	<haxeflag name="--macro" value="include('my.pack')" />
+
+	<haxedef name="hscriptPos" />
+
+	<haxedef name="HXCPP_CHECK_POINTER" />
+	<haxedef name="HXCPP_STACK_LINE" />
+	<haxedef name="HXCPP_STACK_TRACE" />
+</project>
