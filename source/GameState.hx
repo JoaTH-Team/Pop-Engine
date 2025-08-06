@@ -10,6 +10,8 @@ class GameState extends FlxState
 	var stateHScript:GameScript;
 	var stateLua:LuaScript;
 
+	public var stateName:String = null;
+
 	// Array Content
 	public var luaModuleScript:Array<LuaCallbackScript> = []; // this is gonna be funni
 	public var scriptArray:Array<GameScript> = []; // store all .hxs file
@@ -22,6 +24,8 @@ class GameState extends FlxState
 
 		super();
 
+		stateName = state.split('/').pop().split('\\').pop().split('.')[0];
+		
 		if (state.endsWith(".lua")) {
 			stateLua = new LuaScript(state);
 		} else {
@@ -29,14 +33,22 @@ class GameState extends FlxState
 		}
 
 		// Script Folder check
-		var foldersToCheck:String = Paths.file('data/scripts/');
-		if (FileSystem.exists(foldersToCheck) && FileSystem.isDirectory(foldersToCheck)) {
-			for (file in FileSystem.readDirectory(foldersToCheck)) {
-				var fullPath:String = foldersToCheck + file;
-				if (file.endsWith('.hxs')) {
-					scriptArray.push(new GameScript(fullPath));
-				} else if (file.endsWith('.lua')) {
-					luaArray.push(new LuaScript(fullPath));
+		var foldersToCheck:Array<String> = [Paths.file('data/scripts/$stateName/'), Paths.file('data/scripts/global/')];
+		for (folder in foldersToCheck)
+		{
+			if (FileSystem.exists(folder) && FileSystem.isDirectory(folder))
+			{
+				for (file in FileSystem.readDirectory(folder))
+				{
+					var fullPath:String = folder + file;
+					if (file.endsWith('.hxs'))
+					{
+						scriptArray.push(new GameScript(fullPath));
+					}
+					else if (file.endsWith('.lua'))
+					{
+						luaArray.push(new LuaScript(fullPath));
+					}
 				}
 			}
 		}

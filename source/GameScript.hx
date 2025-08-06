@@ -26,8 +26,7 @@ class GameScript extends HScript
         importFunc("flixel.util.FlxSave");
         importFunc("flixel.math.FlxMath");
         importFunc("flixel.system.FlxModding");
-        importFunc("flixel.system.FlxAssets");
-        importFunc("flixel.ui.FlxButton");
+		importFunc("flixel.system.FlxAssets");
         set("FlxRuntimeShader", flixel.addons.display.FlxRuntimeShader);
         set("FlxWaveform", flixel.addons.display.waveform.FlxWaveform);
         set("FlxWaveformBuffer", flixel.addons.display.waveform.FlxWaveformBuffer);
