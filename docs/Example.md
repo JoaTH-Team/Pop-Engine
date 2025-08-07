@@ -41,6 +41,18 @@ function update(elapsed)
 end
 ```
 
+#### Set/Get Property (LUA)
+```lua
+function create()
+    createSprite("myTag", 0, 0, "myImage")
+    add("myTag")
+    
+    setProperty("myTag.x", 100) -- move myTag x position to 100
+
+    print(getProperty("myTag.x")) -- return myTag x position
+end
+```
+
 ### HScript Part
 #### Create Sprite (HSCRIPT)
 ```haxe
@@ -82,5 +94,47 @@ function update(elapsed:Float) {
     if (FlxG.keys.justPressed.Z) {
         myTag.animation.play("idle");
     }    
+}
+```
+
+#### Imported Class (HSCRIPT)
+```haxe
+import("DebugCounter")
+
+function new() {
+    DebugCounter.instance.x = 30;
+    DebugCounter.instance.y = 30;
+}
+```
+
+#### Imported Script (HSCRIPT)
+```haxe
+// states/FirstState.hxs
+var cool = importScript("sample/Cool.hxs");
+
+function create() {
+    trace(cool.importMe());
+}
+
+// sample/Cool.hxs
+function importMe() {
+    return 'is da cool trace';
+}
+```
+
+### Both Part
+#### Set/Get tagged Lua object (HSCRIPT | LUA)
+```lua
+-- states/FirstState.lua
+function create()
+    createText("myTag", 0, 0, 0, "This is my text", 32)
+    add("myTag")
+end
+```
+
+```haxe
+// scripts/FirstState/thing.hxs
+function create() {
+    tagLua("myTag").x = 100;
 }
 ```

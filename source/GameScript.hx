@@ -71,12 +71,18 @@ class GameScript extends HScript
 			return null;
 		});
 
-		set('importScript', (source:String) ->
+		set('importScript', function(file:String)
 		{
-			var name:String = StringTools.replace(source, '.', '/');
-			var hscript:GameScript = new GameScript(Paths.data(name));
-			hscript.executeFile(Paths.data(name));
-			return hscript.getAll();
+			var hscript:GameScript = new GameScript(Paths.data(file));
+			hscript.executeFile(Paths.data(file));
+			GameState.instance.scriptArray.push(hscript);
+
+			var importedValues = hscript.getAll();
+			for (key in Reflect.fields(importedValues))
+			{
+				set(key, Reflect.field(importedValues, key));
+			}
+			return importedValues;
 		});
 
         try {

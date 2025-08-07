@@ -24,8 +24,12 @@ Lot of lua, also check [Example code from Pop Engine](Example.md) for more detai
 - `getTaggedObjectCount()`: Get all the tag object such as sprite, text,... to a int
 - `destroyTag(tag:String)`: Run a `destroy()` for a call back that have it (like run `sprite.destroy();`)
 
+## Haxe callback
+- `runHaxeString(str:String)`: Run a string haxe code inside Lua
+- `runHaxeFile(file:String)`: Get a HScript file and then run it from lua, the file will push into the `scriptArray` from `GameState`
+
 # Lua Code more API
-> Im real lazy for it, so i create this one
+> Im real lazy from creating alot of callback, so i create this one
 
 You can actually create your own Lua API by added a HScript file into the `data/lua_more_callback/<callback_name>.hxs`
 

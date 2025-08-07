@@ -151,6 +151,21 @@ class LuaScript {
             }
 		});
 
+		// Haxe Function
+		callback("runHaxeString", function(str:String)
+		{
+			var haxe:GameScript = new GameScript(null);
+			haxe.parser.line = 1;
+			return haxe.executeString(str);
+		});
+		callback("runHaxeFile", function(file:String)
+		{
+			var hscript:GameScript = new GameScript(Paths.data(file));
+			hscript.executeFile(Paths.data(file));
+			GameState.instance.scriptArray.push(hscript);
+			return hscript.getAll();
+		});
+
         try {
             LuaUtils.doString(vm, File.getContent(file));
         } catch (e:Dynamic) {

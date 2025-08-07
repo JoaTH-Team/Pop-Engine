@@ -20,11 +20,15 @@ class DebugCounter extends TextField
 	**/
 	public var memoryMegas(get, never):Float;
 
+	public static var instance:DebugCounter = null;
+
 	@:noCompletion private var times:Array<Float>;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
+
+		instance = this;
 
 		this.x = x;
 		this.y = y;
@@ -61,7 +65,8 @@ class DebugCounter extends TextField
 
 	public dynamic function updateText():Void {
 		text = 'FPS: ${currentFPS}'
-		+ ' | Memory: ${flixel.util.FlxStringUtil.formatBytes(memoryMegas)}';
+			+ ' | Memory: ${flixel.util.FlxStringUtil.formatBytes(memoryMegas)}'
+			+ ' | Pop Engine v${FlxG.stage.application.meta.get("version")}';
 
 		textColor = 0xFFFFFFFF;
 		if (currentFPS < FlxG.drawFramerate * 0.5)

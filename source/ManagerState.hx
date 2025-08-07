@@ -25,6 +25,9 @@ class ManagerState extends FlxState
 
 	override public function create()
 	{
+		FlxG.resizeGame(800, 600);
+		FlxG.resizeWindow(800, 600);
+
 		super.create();
         FlxModding.reload(true);
 

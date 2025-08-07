@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-	<app title="Pop Engine" file="Pop Engine" main="Main" version="1.0.0" company="Huy1234TH" />
+	<app title="Pop Engine" file="Pop Engine" main="Main" version="1.0.0" company="JoaTH Team" />
 	<app preloader="flixel.system.FlxPreloader" />
 
 	<window width="800" height="600" fps="60" background="#000000" hardware="true" vsync="false" />
