@@ -92,14 +92,11 @@ class GameState extends FlxState
 	{
 		callFunction("destroy", []);
 		
-		if (stateLua != null) {
-			LuaScript.cleanupAll();
+		if (stateLua != null)
 			stateLua = null;
-		}
 		
-		if (stateHScript != null) {
+		if (stateHScript != null)
 			stateHScript = null;
-		}
 		
 		super.destroy();
 	}

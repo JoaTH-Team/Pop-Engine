@@ -23,12 +23,13 @@ Lot of lua, also check [Example code from Pop Engine](Example.md) for more detai
 - `cleanupMemory()`: Clean up some memory
 - `getTaggedObjectCount()`: Get all the tag object such as sprite, text,... to a int
 - `destroyTag(tag:String)`: Run a `destroy()` for a call back that have it (like run `sprite.destroy();`)
-- `clearAllTags()`: Clear and remove all exists tag, also run destroy for each item
 
 # Lua Code more API
+> Im real lazy for it, so i create this one
+
 You can actually create your own Lua API by added a HScript file into the `data/lua_more_callback/<callback_name>.hxs`
 
-Note: You will have only use `function new()` only, function `create`, `update`,... are not able to run for some haxelib reason
+Note: You will have only use `function new()` only, function `function create()`, `function update(elapsed:Float)`,... are not able to run for some haxelib reason
 
 For quick example, is should be like:
 ```haxe

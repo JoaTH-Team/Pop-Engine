@@ -149,19 +149,7 @@ class LuaScript {
                 }
                 taggedVariable.remove(tag);
             }
-        });
-        callback("clearAllTags", function () {
-            for (tag in taggedVariable.keys()) {
-                var obj = taggedVariable.get(tag);
-                if (obj != null && Std.isOfType(obj, FlxBasic)) {
-                    var basic:FlxBasic = cast obj;
-                    GameState.instance.remove(basic);
-                    basic.destroy();
-                }
-            }
-            taggedVariable.clear();
-            trace("All tagged objects cleared");
-        });
+		});
 
         try {
             LuaUtils.doString(vm, File.getContent(file));
@@ -217,24 +205,5 @@ class LuaScript {
         for (i in name) {
             callback(i.toString(), args);
         }
-    }
-    
-    public static function cleanupAll() {
-        trace("Performing full cleanup for lua...");
-        for (tag in taggedVariable.keys()) {
-            var obj = taggedVariable.get(tag);
-            if (obj != null && Std.isOfType(obj, flixel.FlxBasic)) {
-                var basic:flixel.FlxBasic = cast obj;
-                basic.destroy();
-            }
-        }
-        taggedVariable.clear();
-        
-        if (vm != null) {
-            Lua.close(vm);
-            vm = null;
-        }
-        
-        trace("Full cleanup for lua completed");
-    }
+	}
 }

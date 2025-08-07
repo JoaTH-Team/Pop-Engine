@@ -24,8 +24,8 @@ function create()
     createSprite("myTag", 0, 0)
     loadSpriteSheet("myTag", "mySpriteSheet") -- will load both mySpriteSheet.png and mySpriteSheet.xml
     makeAnimation("myTag", [
-        {name: "idle", prefix: "coolIdle0", frameRate: 24, looped: false},
-        {name: "soCool", prefix: "soCool0", frameRate: 24, looped: false}
+        {name = "idle", prefix = "coolIdle0", frameRate = 24, looped = false},
+        {name = "soCool", prefix = "soCool0", frameRate = 24, looped = false}
     ])
     playAnimation("myTag", "idle") -- `playAnim()` also work
 end

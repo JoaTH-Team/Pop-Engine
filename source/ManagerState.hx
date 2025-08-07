@@ -75,6 +75,11 @@ class ManagerState extends FlxState
         if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN)
             changeSelection((FlxG.keys.justPressed.UP ? -1 : 1));
 
+		if (FlxG.keys.justReleased.F5)
+		{
+			FlxG.switchState(() -> new ManagerState());
+		}
+
         if (FlxG.keys.justPressed.ENTER) {
             try {
                 Paths.dirPath = FlxModding.get(listContent[listSelected]).directory();
