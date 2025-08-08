@@ -86,6 +86,7 @@ class ManagerState extends FlxState
         if (FlxG.keys.justPressed.ENTER) {
             try {
                 Paths.dirPath = FlxModding.get(listContent[listSelected]).directory();
+				GameState.nameContent = listContent[listSelected];
                 
                 var file:String = null;
                 var hxsFile = Paths.data('states/FirstState.hxs');

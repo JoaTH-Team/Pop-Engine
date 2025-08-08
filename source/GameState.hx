@@ -11,6 +11,7 @@ class GameState extends FlxState
 	public var stateLua:LuaScript;
 
 	public var stateName:String = null;
+	public static var nameContent:String = null;
 
 	// Array Content
 	public var luaModuleScript:Array<LuaCallbackScript> = []; // this is gonna be funni

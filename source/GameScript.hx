@@ -3,6 +3,7 @@ package;
 import custom.CustomFlxColor;
 import custom.CustomFlxTextAlign;
 import flixel.FlxG;
+import flixel.system.FlxModding;
 import joalor64gh.HScript;
 import sys.io.File;
 
@@ -69,6 +70,38 @@ class GameScript extends HScript
 			if (LuaScript.taggedVariable.exists(tag))
 				return LuaScript.taggedVariable.get(tag);
 			return null;
+		});
+
+		set("switchState", function(name:String)
+		{
+			try
+			{
+				Paths.dirPath = FlxModding.get(GameState.nameContent).directory();
+
+				var file:String = null;
+				var hxsFile = Paths.data('states/$name.hxs');
+				var luaFile = Paths.data('states/$name.lua');
+
+				if (sys.FileSystem.exists(hxsFile))
+				{
+					file = hxsFile;
+				}
+				else if (sys.FileSystem.exists(luaFile))
+				{
+					file = luaFile;
+				}
+				else
+				{
+					file = hxsFile;
+				}
+
+				FlxG.switchState(() -> new GameState(file));
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to switch to game state');
+				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
+			}
 		});
 
 		set('importScript', function(file:String)
