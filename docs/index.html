@@ -54,27 +54,6 @@
 
         <h2>Download Engine :D</h2>
         <li>The current version of Pop Engine is v1.0.0</li>
-        <button id="download-button" class="download-button" data-download="https://github.com/JoaTH-Team/Pop-Engine/releases/latest">Github Link</button>
-    
-        <script>
-            const downloadButton = document.getElementById('download-button');
-            const link = "https://github.com/JoaTH-Team/Pop-Engine/releases/latest";
-
-            downloadButton.addEventListener('click', async() => {
-                try {
-                    const rep = await fetch(link);
-
-                    if (rep.ok == false) {
-                        throw new Error("Can't get link to download :sob:");
-                    }
-
-                    const data = await response.json();
-                    const downloadUrl = data.assets[0].browser_download_url;
-                    window.location.href = downloadUrl;
-                } catch (e) {
-                    console.error('Error NOOOO', e);
-                }
-            });
-        </script>
+        <button id="download-button" class="download-button" onclick="window.open('https://github.com/JoaTH-Team/Pop-Engine/releases/latest', '_blank')">Github Link</button>
     </body>
 </html>
