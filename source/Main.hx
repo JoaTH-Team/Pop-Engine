@@ -16,6 +16,7 @@ class Main extends Sprite
 		try {
 			FlxModding.init(true, "assets", "content");
 			Sys.println('Lua Project version: Lua (${Lua.VERSION}) - LuaJIT (${LuaJIT.VERSION})');
+			Sys.println('Pop Engine version: ' + stage.application.meta.get("version"));
 
 			addChild(new FlxGame(0, 0, ManagerState));
 			addChild(new DebugCounter(2, 2, FlxColor.WHITE));
