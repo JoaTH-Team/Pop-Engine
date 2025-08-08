@@ -18,6 +18,24 @@
                 list-style-type: disc;
                 margin-left: 2rem;
             }
+            .download-button {
+                padding: 10px 20px;
+                font-size: 16px;
+                margin-top: 10px;
+                background-color: #b5bcc4;
+                color: rgb(0, 0, 0);
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .download-button:hover {
+                background-color: #74777b;
+            }
+            .download-button:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
         </style>
     </head>
     <body>
@@ -35,6 +53,7 @@
         </ul>
 
         <h2>Download Engine :D</h2>
-        <button style="padding: 5px 5px; font-size: 16px; color: #333">Github Link</button>
+        <li>The current version of Pop Engine is v1.0.0</li>
+        <button id="download-button" class="download-button" data-download="https://github.com/JoaTH-Team/Pop-Engine/releases/latest">Github Link</button>
     </body>
 </html>
