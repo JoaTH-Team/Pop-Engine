@@ -216,6 +216,11 @@ class LuaScript {
         return LuaUtils.addFunction(vm, name, args);
     }
 
+	public static function callbackStatic(name:String, args:Dynamic)
+	{
+		return LuaUtils.addFunction(vm, name, args);
+	}    
+
     public function callbackMore(name:Array<String>, args:Dynamic) {
         for (i in name) {
             callback(i.toString(), args);

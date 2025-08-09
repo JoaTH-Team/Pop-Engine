@@ -1,6 +1,8 @@
 # HScript Code API
 Some hscript stuff, also check [Example code from Pop Engine](Example.md) for more detail
 
+is pretty recommeneded using HScript instead of Lua atm
+
 ## Classes are imported
 - HaxeFlixel: `FlxG`, `FlxSprite`, `FlxCamera`, `FlxObject`, `FlxBasic`, `FlxText`, `FlxSound`, `FlxTimer`, `FlxMath`, `FlxAssets`, `FlxRuntimeShader`, `FlxColor` (Custom one), `FlxTextAlign` (Custom one)
 - Flixel Modding: `FlxModding`

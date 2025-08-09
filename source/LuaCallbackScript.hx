@@ -6,15 +6,21 @@ import sys.io.File;
 class LuaCallbackScript extends GameScript
 {
     public function new(file:String) {
-		super(null);
+		super(file);
 
         set("LuaUtils", LuaUtils);
         set("vm", LuaScript.vm);
         set("LuaScript", LuaScript);
 
         set("addCallback", function (name:String, fn:Dynamic) {
-            return LuaUtils.addFunction(LuaScript.vm, name, fn);
+			trace("is this possible");
+			return LuaScript.callbackStatic(name, fn);
         });
+		set("withoutReturn", function(name:String, fn:Dynamic)
+		{
+			LuaUtils.addFunction(LuaScript.vm, name, fn);
+		});
+
 		trace(file);
 
 		try
