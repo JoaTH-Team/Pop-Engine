@@ -29,4 +29,13 @@ class Paths {
     inline public static function data(name:String) {
         return file('data/$name');
     }
+	inline public static function video(name:String)
+	{
+		return file('videos/$name.mp4');
+	}
+
+	inline public static function fonts(name:String)
+	{
+		return file('fonts/$name');
+	}
 }

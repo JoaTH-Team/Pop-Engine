@@ -49,6 +49,7 @@ class GameScript extends HScript
         set("FlxRuntimeShader", flixel.addons.display.FlxRuntimeShader);
         set("FlxWaveform", flixel.addons.display.waveform.FlxWaveform);
         set("FlxWaveformBuffer", flixel.addons.display.waveform.FlxWaveformBuffer);
+		set("FlxVideoSprite", hxvlc.flixel.FlxVideoSprite);
 
         importFunc("openfl.Lib");
 
@@ -100,6 +101,51 @@ class GameScript extends HScript
 			catch (e:Dynamic)
 			{
 				CrashHandler.reportError(e, 'Failed to switch to game state');
+				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
+			}
+		});
+
+		set("openSubState", function(name:String)
+		{
+			try
+			{
+				Paths.dirPath = FlxModding.get(GameState.nameContent).directory();
+
+				var file:String = null;
+				var hxsFile = Paths.data('states/$name.hxs');
+				var luaFile = Paths.data('states/$name.lua');
+
+				if (sys.FileSystem.exists(hxsFile))
+				{
+					file = hxsFile;
+				}
+				else if (sys.FileSystem.exists(luaFile))
+				{
+					file = luaFile;
+				}
+				else
+				{
+					file = hxsFile;
+				}
+
+				FlxG.state.openSubState(new GameSubState(file));
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to open game sub state');
+				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
+			}
+		});
+
+		set("closeSubState", function()
+		{
+			try
+			{
+				FlxG.state.closeSubState();
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to close game sub state');
 				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
 			}
 		});

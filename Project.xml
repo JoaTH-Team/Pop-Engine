@@ -20,6 +20,11 @@
 	<haxelib name="flixel-controls" />
 	<haxelib name="hscript-joalor64gh" />
 	<haxelib name="hxluajit-wrapper" />
+	<haxelib name="hxvlc" />
+	
+	<section if="cpp">
+		<haxelib name="hxvlc" if="desktop || mobile" />
+	</section>
 
 	<haxedef name="FLX_NO_HEALTH" />
 	<haxedef name="FLX_NO_MOUSE" if="mobile" />

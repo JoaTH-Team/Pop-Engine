@@ -6,6 +6,7 @@ import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.system.FlxModding;
 import flixel.text.FlxText;
 import hxluajit.Lua;
 import hxluajit.LuaL;
@@ -164,6 +165,84 @@ class LuaScript {
 			hscript.executeFile(Paths.data(file));
 			GameState.instance.scriptArray.push(hscript);
 			return hscript.getAll();
+		});
+
+		// State Function
+		callback("switchState", function(name:String)
+		{
+			try
+			{
+				Paths.dirPath = FlxModding.get(GameState.nameContent).directory();
+
+				var file:String = null;
+				var hxsFile = Paths.data('states/$name.hxs');
+				var luaFile = Paths.data('states/$name.lua');
+
+				if (sys.FileSystem.exists(hxsFile))
+				{
+					file = hxsFile;
+				}
+				else if (sys.FileSystem.exists(luaFile))
+				{
+					file = luaFile;
+				}
+				else
+				{
+					file = hxsFile;
+				}
+
+				FlxG.switchState(() -> new GameState(file));
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to switch to game state');
+				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
+			}
+		});
+
+		callback("openSubState", function(name:String)
+		{
+			try
+			{
+				Paths.dirPath = FlxModding.get(GameState.nameContent).directory();
+
+				var file:String = null;
+				var hxsFile = Paths.data('states/$name.hxs');
+				var luaFile = Paths.data('states/$name.lua');
+
+				if (sys.FileSystem.exists(hxsFile))
+				{
+					file = hxsFile;
+				}
+				else if (sys.FileSystem.exists(luaFile))
+				{
+					file = luaFile;
+				}
+				else
+				{
+					file = hxsFile;
+				}
+
+				FlxG.state.openSubState(new GameSubState(file));
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to open game sub state');
+				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
+			}
+		});
+
+		callback("closeSubState", function()
+		{
+			try
+			{
+				FlxG.state.closeSubState();
+			}
+			catch (e:Dynamic)
+			{
+				CrashHandler.reportError(e, 'Failed to close game sub state');
+				FlxG.stage.application.window.alert('Failed to load content: ${GameState.nameContent}\nError: $e', 'Load Error');
+			}
 		});
 
         try {
