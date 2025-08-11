@@ -11,6 +11,7 @@ class LuaCallbackScript extends GameScript
         set("LuaUtils", LuaUtils);
         set("vm", LuaScript.vm);
         set("LuaScript", LuaScript);
+		set("taggedVariable", LuaScript.taggedVariable);
 
         set("addCallback", function (name:String, fn:Dynamic) {
 			trace("is this possible");
