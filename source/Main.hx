@@ -2,26 +2,19 @@ package;
 
 import flixel.FlxGame;
 import flixel.system.FlxModding;
-import flixel.util.FlxColor;
-import hxluajit.Lua;
-import hxluajit.LuaJIT;
 import openfl.display.Sprite;
 
 class Main extends Sprite
 {
+	var game:FlxGame;
+
 	public function new()
 	{
 		super();
-		
-		try {
-			FlxModding.init(true, "assets", "content");
-			Sys.println('Lua Project version: Lua (${Lua.VERSION}) - LuaJIT (${LuaJIT.VERSION})');
-			Sys.println('Pop Engine version: ' + stage.application.meta.get("version"));
 
-			addChild(new FlxGame(0, 0, ManagerState));
-			addChild(new DebugCounter(2, 2, FlxColor.WHITE));
-		} catch (e:Dynamic) {
-			CrashHandler.handleCrash(e, "Failed to initialize Pop Engine");
-		}
+		FlxModding.init(true, "assets", "content");
+
+		game = new FlxGame(0, 0, states.ManagerState, 60, 60, false, false);
+		addChild(game);
 	}
 }

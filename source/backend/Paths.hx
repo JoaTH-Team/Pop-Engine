@@ -1,10 +1,10 @@
-package;
+package backend;
 
 import flixel.FlxG;
 import flixel.system.FlxModding;
 
 class Paths {
-    public static var dirPath:String = "assets/";
+    public static var dirPath:String = "content/";
 
     inline public static function file(name:String) {
         return '$dirPath/$name';
