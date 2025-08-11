@@ -27,6 +27,20 @@ class GameState extends FlxState
 
 		stateName = state.split('/').pop().split('\\').pop().split('.')[0];
 		
+		// Lua Module folder check
+		var foldersToCheck:String = Paths.file('data/lua_more_callback/');
+		if (FileSystem.exists(foldersToCheck) && FileSystem.isDirectory(foldersToCheck))
+		{
+			for (file in FileSystem.readDirectory(foldersToCheck))
+			{
+				var fullPath:String = foldersToCheck + file;
+				if (file.endsWith('.hxs'))
+				{
+					luaModuleScript.push(new LuaCallbackScript(fullPath));
+				}
+			}
+		}
+
 		if (state.endsWith(".lua")) {
 			stateLua = new LuaScript(state);
 		} else {
@@ -54,17 +68,6 @@ class GameState extends FlxState
 			}
 		}
 
-		// Lua Module folder check
-		var foldersToCheck:String = Paths.file('data/lua_more_callback/');
-		if (FileSystem.exists(foldersToCheck) && FileSystem.isDirectory(foldersToCheck)) {
-			for (file in FileSystem.readDirectory(foldersToCheck)) {
-				var fullPath:String = foldersToCheck + file;
-				if (file.endsWith('.hxs')) {
-					luaModuleScript.push(new LuaCallbackScript(fullPath));
-				}
-			}
-		}
-		
 		callFunction("new", []);
 	}
 
