@@ -17,8 +17,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-modding" />
 	<haxelib name="flixel-waveform" />
-	<haxelib name="flixel-controls" />
-	<haxelib name="hscript-joalor64gh" />
+	<haxelib name="hscript-iris" />
 	<haxelib name="hxluajit-wrapper" />
 	<haxelib name="hxvlc" />
 	
