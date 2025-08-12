@@ -8,6 +8,7 @@ import flixel.system.FlxModding;
 import flixel.system.FlxModpack;
 import flixel.util.FlxColor;
 import objects.PopText;
+import sys.FileSystem;
 
 class ManagerState extends FlxUIState
 {
@@ -52,6 +53,13 @@ class ManagerState extends FlxUIState
 			try
 			{
 				Paths.dirPath = FlxModding.get(contentArray[curSelected]).directory();
+				var file:String = null;
+				if (FileSystem.exists(Paths.data("states/FirstState.lua")))
+					file = Paths.data("states/FirstState.lua");
+				else
+					file = Paths.data("states/FirstState.hxs");
+
+				FlxG.switchState(() -> new GameState(file));
 			}
 			catch (e) {}
 		}

@@ -13,7 +13,7 @@ class HScript extends Iris
     public function new(FileName:String) {
         RawConfig = {autoPreset: true, autoRun: false, name: FileName.split('/').pop().split('\\').pop().split('.')[0]}
         
-        super(File.getContent(Paths.data(FileName)), RawConfig);
+		super(File.getContent(FileName), RawConfig);
 
 		set("FlxG", flixel.FlxG);
 		set("FlxMath", flixel.math.FlxMath);
@@ -39,4 +39,10 @@ class HScript extends Iris
 
         execute();
     }    
+	override function call(fun:String, ?args:Array<Dynamic>):IrisCall
+	{
+		if (fun == null || !exists(fun))
+			return null;
+		return super.call(fun, args);
+	}
 }

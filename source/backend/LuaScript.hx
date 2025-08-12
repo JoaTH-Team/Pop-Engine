@@ -14,7 +14,7 @@ class LuaScript {
             return taggedVariable.set(tag, sprite);
         });
 
-        LuaUtils.doFile(GameState.luaVM, Paths.data(FileName));
+		LuaUtils.doFile(GameState.luaVM, FileName);
     }
 
     /**

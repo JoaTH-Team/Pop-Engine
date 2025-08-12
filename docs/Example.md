@@ -1,4 +1,11 @@
 # Example stuff for Pop Engine
+### Note
+For each game content create, you must have a `FirstState.hxs` or `FirstState.lua` when run your game content
+
+To create your `FirstState`, create a `states` folder on `content/<your-content>/data/` and then create your `FirstState` script file
+
+Also Note: If FirstState have both file with HScript and Lua, the engine will load the HScript one only!
+
 ### Lua Part
 [See all Lua API here](Lua-Code.md)
 

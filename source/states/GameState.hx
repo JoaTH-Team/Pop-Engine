@@ -55,7 +55,27 @@ class GameState extends FlxUIState
             stateHScript = new HScript(state);
         }
 
-        var foldersToCheck:Array<String> = [Paths.file('data/scripts/$stateName/'), Paths.file('data/scripts/global/')];
+		var foldersToCheck:Array<String> = [Paths.file('data/scripts/$stateName/')];
+		for (folder in foldersToCheck)
+		{
+			if (FileSystem.exists(folder) && FileSystem.isDirectory(folder))
+			{
+				for (file in FileSystem.readDirectory(folder))
+				{
+					var fullPath:String = folder + file;
+					if (file.endsWith('.hxs'))
+					{
+						hscriptArray.push(new HScript(fullPath));
+					}
+					else if (file.endsWith('.lua'))
+					{
+						luaArray.push(new LuaScript(fullPath));
+					}
+				}
+			}
+		}
+
+		var foldersToCheck:Array<String> = [Paths.file('data/scripts/global/')];
 		for (folder in foldersToCheck)
 		{
 			if (FileSystem.exists(folder) && FileSystem.isDirectory(folder))

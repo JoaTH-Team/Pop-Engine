@@ -10,7 +10,7 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets" />
-	<assets path="content" />
+	<assets path="content" embed="false" />
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />

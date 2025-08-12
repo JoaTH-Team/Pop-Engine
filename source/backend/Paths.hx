@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxModding;
 
 class Paths {
-    public static var dirPath:String = "content/";
+	public static var dirPath:String = "assets";
 
     inline public static function file(name:String) {
         return '$dirPath/$name';
