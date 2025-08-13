@@ -18,8 +18,8 @@
 	<haxelib name="flixel-modding" />
 	<haxelib name="flixel-waveform" />
 	<haxelib name="hscript-iris" />
-	<haxelib name="hxluajit-wrapper" />
 	<haxelib name="hxvlc" />
+	<haxelib name="hscript-iris" />
 	
 	<section if="cpp">
 		<haxelib name="hxvlc" if="desktop || mobile" />

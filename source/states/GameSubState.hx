@@ -1,14 +1,14 @@
 package states;
 
 import backend.HScript;
-import flixel.addons.ui.FlxUIState;
+import flixel.addons.ui.FlxUISubState;
 import sys.FileSystem;
 
 using StringTools;
 
-class GameState extends FlxUIState
+class GameSubState extends FlxUISubState
 {
-	public static var instance:GameState;
+	public static var instance:GameSubState;
 
 	public var scriptArray:Array<HScript> = [];
 	public var scriptState:HScript;
@@ -78,5 +78,5 @@ class GameState extends FlxUIState
 		for (script in scriptArray)
 			script?.call(name, args);
 		scriptState.call(name, args);
-	}
+	}    
 }

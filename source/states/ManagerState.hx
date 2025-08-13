@@ -53,13 +53,7 @@ class ManagerState extends FlxUIState
 			try
 			{
 				Paths.dirPath = FlxModding.get(contentArray[curSelected]).directory();
-				var file:String = null;
-				if (FileSystem.exists(Paths.data("states/FirstState.lua")))
-					file = Paths.data("states/FirstState.lua");
-				else
-					file = Paths.data("states/FirstState.hxs");
-
-				FlxG.switchState(() -> new GameState(file));
+				FlxG.switchState(() -> new GameState("FirstState"));
 			}
 			catch (e) {}
 		}

@@ -1,50 +1,127 @@
 package backend;
 
+import crowplexus.hscript.Interp.LocalVar;
 import crowplexus.iris.Iris;
-import crowplexus.iris.IrisConfig.RawIrisConfig;
+import flixel.FlxBasic;
+import flixel.FlxCamera;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.addons.display.waveform.FlxWaveform;
+import flixel.math.FlxMath;
+import flixel.sound.FlxSound;
+import flixel.system.FlxAssets.FlxShader;
+import flixel.system.FlxAssets;
+import flixel.system.FlxModding;
+import flixel.text.FlxText;
+import flixel.util.FlxSave;
+import objects.PopSprite;
+import objects.PopText;
+import states.GameState;
+import states.GameSubState;
 import sys.io.File;
 
 using StringTools;
 
 class HScript extends Iris
 {
-    final RawConfig:RawIrisConfig;
+	var locals(get, set):Map<String, LocalVar>;
 
-	public static var Function_Stop:Dynamic = 1;
-	public static var Function_Continue:Dynamic = 0;
+	function get_locals():Map<String, LocalVar>
+	{
+		var result:Map<String, LocalVar> = new Map();
+		@:privateAccess
+		for (key in interp.locals.keys())
+		{
+			result.set(key, {r: interp.locals.get(key).r, const: interp.locals.get(key).const});
+		}
+		return result;
+	}
 
-    public function new(FileName:String) {
-        RawConfig = {autoPreset: true, autoRun: false, name: FileName.split('/').pop().split('\\').pop().split('.')[0]}
-        
-		super(File.getContent(FileName), RawConfig);
+	function set_locals(local:Map<String, LocalVar>)
+	{
+		@:privateAccess
+		interp.locals = local;
+		return local;
+	}
 
-		set("Function_Stop", Function_Stop);
-		set("Function_Continue", Function_Continue);
-        
-		set("FlxG", flixel.FlxG);
-		set("FlxMath", flixel.math.FlxMath);
-		set("FlxSprite", flixel.FlxSprite);
-		set("FlxText", flixel.text.FlxText);
-		set("FlxCamera", flixel.FlxCamera);
-		set("FlxTimer", flixel.util.FlxTimer);
-		set("FlxTween", flixel.tweens.FlxTween);
-		set("FlxEase", flixel.tweens.FlxEase);
-        set("FlxMath", flixel.math.FlxMath);
-        set("FlxModding", flixel.system.FlxModding);
-        set("FlxRuntimeShader", flixel.addons.display.FlxRuntimeShader);
-        set("FlxWaveform", flixel.addons.display.waveform.FlxWaveform);
-        set("FlxWaveformBuffer", flixel.addons.display.waveform.FlxWaveformBuffer);
+	public function getAll():Dynamic
+	{
+		var result:Dynamic = {};
+		@:privateAccess
+		if (interp != null && interp.locals != null)
+		{
+			for (i in interp.locals.keys())
+			{
+				var value = interp.locals.get(i).r;
+				if (value != null)
+					Reflect.setField(result, i, value);
+			}
+		}
 
-        set("Paths", backend.Paths);
-        set("GameState", states.GameState);
-        
-        set("PopSprite", objects.PopSprite);
-        set("PopText", objects.PopText);
-        
-        set("game", states.GameState.instance);
+		if (interp != null && interp.variables != null)
+		{
+			for (i in interp.variables.keys())
+			{
+				if (!Reflect.hasField(result, i))
+				{
+					var value = interp.variables.get(i);
+					if (value != null)
+						Reflect.setField(result, i, value);
+				}
+			}
+		}
 
-        execute();
-    }    
+		return result;
+	}
+
+	public function new(FileName:String)
+	{
+		super(File.getContent(FileName));
+
+		config.autoPreset = true;
+		config.autoRun = false;
+		config.name = FileName;
+		config.packageName = FileName;
+
+		set("importScript", function(scriptFile:String)
+		{
+			var hscript:HScript = new HScript(scriptFile);
+			hscript.execute();
+			GameState.instance.scriptArray.push(hscript);
+			return hscript.getAll();
+		});
+
+		set("CustomState", GameState);
+		set("GameState", GameState);
+		set("CustomSubState", GameSubState);
+		set("GameSubState", GameSubState);
+		set("PopSprite", PopSprite);
+		set("PopText", PopText);
+		set("Paths", Paths);
+
+		set("FlxG", FlxG);
+		set("FlxSprite", FlxSprite);
+		set("FlxText", FlxText);
+		set("FlxCamera", FlxCamera);
+		set("FlxModding", FlxModding);
+		set("FlxRuntimeShader", FlxRuntimeShader);
+		set("FlxShader", FlxShader);
+		set("FlxMath", FlxMath);
+		set("FlxSave", FlxSave);
+		set("FlxSound", FlxSound);
+		set("FlxObject", FlxObject);
+		set("FlxBasic", FlxBasic);
+		set("FlxAssets", FlxAssets);
+		set("FlxWaveform", FlxWaveform);
+
+		set("state", GameState.instance);
+		set("subState", GameSubState.instance);
+
+		execute();
+	}
+
 	override function call(fun:String, ?args:Array<Dynamic>):IrisCall
 	{
 		if (fun == null || !exists(fun))
