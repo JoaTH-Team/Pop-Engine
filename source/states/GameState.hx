@@ -7,7 +7,6 @@ import cpp.RawPointer;
 import flixel.addons.ui.FlxUIState;
 import hxluajit.LuaL;
 import hxluajit.Types.Lua_State;
-import hxluajit.wrapper.LuaUtils;
 import sys.FileSystem;
 
 using StringTools;
@@ -26,13 +25,17 @@ class GameState extends FlxUIState
     public var stateHScript:HScript;
     public var stateLua:LuaScript;
 
-    public function new(state:String) {
+	public function new(stateFile:String)
+	{
         instance = this;
 
         luaVM = LuaL.newstate();
         LuaL.openlibs(luaVM);
 
-        stateName = state.split('/').pop().split('\\').pop().split('.')[0];
+		stateName = stateFile.split('/').pop().split('\\').pop().split('.')[0];
+
+		trace(stateFile);
+		trace(stateName);
 
         super();
 
@@ -46,13 +49,13 @@ class GameState extends FlxUIState
 			}
 		}
 
-        if (state.endsWith(".lua"))
+		if (stateFile.endsWith(".lua"))
         {
-            stateLua = new LuaScript(state);
+			stateLua = new LuaScript(stateFile);
         }
         else
         {
-            stateHScript = new HScript(state);
+			stateHScript = new HScript(stateFile);
         }
 
 		var foldersToCheck:Array<String> = [Paths.file('data/scripts/$stateName/')];
@@ -95,6 +98,9 @@ class GameState extends FlxUIState
 			}
 		}
 
+		stateLua.execute();
+		stateHScript.execute();
+
         setCallback("new", []);
     }
 
@@ -126,21 +132,64 @@ class GameState extends FlxUIState
 
         if (stateLua != null)
             stateLua = null;
-    }
-
-    function setCallback(name:String, args:Array<Dynamic>) {
-		if (stateHScript != null)
-			stateHScript.call(name, args);
-		if (stateLua != null)
-			stateLua.callFunction(name, args);
-		if (hscriptArray != null || luaArray != null || luaCallbackScript != null) 
+		for (i in hscriptArray)
 		{
-			for (i in hscriptArray)
-				i?.call(name, args);
-			for (i in luaArray)
-                i?.callFunction(name, args);
-			for (i in luaCallbackScript)
-				i?.call(name, args);    
-        }    
-    }
+			i?.destroy();
+		}
+		for (i in luaCallbackScript)
+		{
+			i?.destroy();
+		}
+		for (i in luaArray)
+		{
+			i?.destroy();
+		}
+	}
+
+	function setCallback(funcName:String, args:Array<Dynamic>)
+	{
+		callOnLuas(funcName, args);
+		callOnScripts(funcName, args);
+		if (stateHScript != null)
+			stateHScript.call(funcName, args);
+
+		if (stateLua != null)
+			stateLua.callFunction(funcName, args);
+	}
+
+	private function callOnScripts(funcName:String, args:Array<Dynamic>):Dynamic
+	{
+		var value:Dynamic = HScript.Function_Continue;
+
+		for (i in 0...hscriptArray.length)
+		{
+			final call:Dynamic = hscriptArray[i].call(funcName, args);
+			final bool:Bool = call == HScript.Function_Continue;
+			if (!bool && call != null)
+				value = call;
+		}
+
+		for (i in 0...luaCallbackScript.length)
+		{
+			final call:Dynamic = luaCallbackScript[i].call(funcName, args);
+			final bool:Bool = call == HScript.Function_Continue;
+			if (!bool && call != null)
+				value = call;
+		}
+
+		return value;
+	}
+
+	private function callOnLuas(funcName:String, args:Array<Dynamic>):Dynamic
+	{
+		var value:Dynamic = LuaScript.Function_Continue;
+
+		for (i in 0...luaArray.length)
+		{
+			var ret:Dynamic = luaArray[i].callFunction(funcName, args);
+			if (ret != LuaScript.Function_Continue)
+				value = ret;
+		}
+		return value;
+	}
 }

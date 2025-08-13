@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.system.FlxModding;
 import openfl.display.Sprite;
@@ -16,6 +17,7 @@ class Main extends Sprite
 
 		game = new FlxGame(0, 0, states.ManagerState, 60, 60, false, false);
 		addChild(game);
+		FlxG.mouse.useSystemCursor = true;
 	}
 	#if CRASH_HANDLER
 	function onCrash(e:UncaughtErrorEvent):Void

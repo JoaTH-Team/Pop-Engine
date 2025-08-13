@@ -10,11 +10,17 @@ class HScript extends Iris
 {
     final RawConfig:RawIrisConfig;
 
+	public static var Function_Stop:Dynamic = 1;
+	public static var Function_Continue:Dynamic = 0;
+
     public function new(FileName:String) {
         RawConfig = {autoPreset: true, autoRun: false, name: FileName.split('/').pop().split('\\').pop().split('.')[0]}
         
 		super(File.getContent(FileName), RawConfig);
 
+		set("Function_Stop", Function_Stop);
+		set("Function_Continue", Function_Continue);
+        
 		set("FlxG", flixel.FlxG);
 		set("FlxMath", flixel.math.FlxMath);
 		set("FlxSprite", flixel.FlxSprite);
