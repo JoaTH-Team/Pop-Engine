@@ -1,6 +1,8 @@
 package states;
 
 import flixel.FlxG;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.ui.FlxUIState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
@@ -26,6 +28,10 @@ class ManagerState extends FlxUIState
 
         super.create();
 
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33C4C4C4, 0x0));
+		grid.velocity.set(40, 40);
+		add(grid);
+
         groupContent = new FlxTypedGroup<PopText>();
         add(groupContent);
 
@@ -44,6 +50,18 @@ class ManagerState extends FlxUIState
         super.update(elapsed);
 		if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN)
 			changeSelection(FlxG.keys.justPressed.UP ? -1 : 1);
+
+		if (FlxG.keys.justPressed.F1)
+		{
+			var getMods = FlxModding.get(contentArray[curSelected]);
+			ManagerSubState.config = [
+				getMods.name,
+				getMods.description,
+				getMods.version,
+				Std.string(getMods.directory())
+			];
+			openSubState(new ManagerSubState());
+		}
 
 		if (FlxG.keys.justPressed.F5)
 			FlxG.switchState(() -> new states.ManagerState());

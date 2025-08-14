@@ -23,7 +23,7 @@ class PopText extends FlxText
         if (asMenuItem)
         {
             var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
-			this.y = FlxMath.lerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
+			this.y = FlxMath.lerp(y, (scaledY * 40) + (FlxG.height * 0.48), 0.16);
         }
     }
 }
