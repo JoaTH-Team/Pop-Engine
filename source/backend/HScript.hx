@@ -85,10 +85,13 @@ class HScript extends Iris
 		config.name = FileName;
 		config.packageName = FileName;
 
+		parser.allowJSON = parser.allowMetadata = parser.allowTypes = true;
+
 		set("importScript", function(scriptFile:String)
 		{
-			var hscript:HScript = new HScript(scriptFile);
+			var hscript:HScript = new HScript(backend.Paths.data('$scriptFile.hxs'));
 			hscript.execute();
+			hscript.getAll();
 			GameState.instance.scriptArray.push(hscript);
 			return hscript.getAll();
 		});
@@ -100,6 +103,7 @@ class HScript extends Iris
 		set("PopSprite", PopSprite);
 		set("PopText", PopText);
 		set("Paths", Paths);
+		set("GameVar", GameVar);
 
 		set("FlxG", FlxG);
 		set("FlxSprite", FlxSprite);
@@ -118,6 +122,12 @@ class HScript extends Iris
 
 		set("state", GameState.instance);
 		set("subState", GameSubState.instance);
+
+		set("setVar", GameVar.setVar);
+		set("getVar", GameVar.getVar);
+		set("removeVar", GameVar.removeVar);
+		set("existsVar", GameVar.existsVar);
+		set("clearVar", GameVar.clearVar);
 
 		execute();
 	}

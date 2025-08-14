@@ -3,7 +3,15 @@ package;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.system.FlxModding;
+import haxe.CallStack.StackItem;
+import haxe.CallStack;
+import haxe.io.Path;
 import openfl.display.Sprite;
+import openfl.events.UncaughtErrorEvent;
+import sys.FileSystem;
+import sys.io.File;
+
+using StringTools;
 
 class Main extends Sprite
 {
@@ -15,11 +23,38 @@ class Main extends Sprite
 
 		FlxModding.init(true, "assets", "content");
 
+		hxvlc.util.Handle.init();
+
 		game = new FlxGame(0, 0, states.ManagerState, 60, 60, false, false);
 		addChild(game);
 		FlxG.mouse.useSystemCursor = true;
+		FlxG.game.focusLostFramerate = 60;
+
+		FlxG.stage.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
+
+		FlxG.signals.gameResized.add(function(w, h)
+		{
+			if (FlxG.cameras != null)
+			{
+				for (cam in FlxG.cameras.list)
+				{
+					if (cam != null && cam.filters != null)
+						resetSpriteCache(cam.flashSprite);
+				}
+			}
+			if (FlxG.game != null)
+				resetSpriteCache(FlxG.game);
+		});
 	}
-	#if CRASH_HANDLER
+
+	static function resetSpriteCache(sprite:Sprite):Void
+	{
+		@:privateAccess {
+			sprite.__cacheBitmap = null;
+			sprite.__cacheBitmapData = null;
+		}
+	}
+
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
 		var errMsg:String = "";
@@ -47,7 +82,7 @@ class Main extends Sprite
 		// remove if you're modding and want the crash log message to contain the link
 		// please remember to actually modify the link for the github page to report the issues to.
 		#if officialBuild
-		errMsg += "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine";
+		errMsg += "\nPlease report this error to the GitHub page: https://github.com/JoaTH-Team/Pop-Engine";
 		#end
 		errMsg += "\n\n> Crash Handler written by: sqirra-rng";
 
@@ -59,11 +94,7 @@ class Main extends Sprite
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
-		Application.current.window.alert(errMsg, "Error!");
-		#if DISCORD_ALLOWED
-		DiscordClient.shutdown();
-		#end
+		FlxG.stage.window.alert(errMsg, "Error!");
 		Sys.exit(1);
 	}
-	#end
 }
