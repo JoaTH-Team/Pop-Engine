@@ -1,5 +1,6 @@
 package states;
 
+import backend.Argument;
 import flixel.FlxG;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
@@ -20,6 +21,11 @@ class ManagerState extends FlxUIState
     var curSelected:Int = 0;
 
     override function create() {
+		if (Argument.parseCommand(Sys.args()))
+		{
+			return;
+		}
+
         FlxModding.reload();
 
 		FlxModding.mods.forEachExists(function(mod:FlxModpack)
