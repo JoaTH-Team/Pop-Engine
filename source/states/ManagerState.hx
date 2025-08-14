@@ -8,6 +8,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.system.FlxModding;
 import flixel.system.FlxModpack;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import objects.PopText;
 import sys.FileSystem;
@@ -44,6 +45,9 @@ class ManagerState extends FlxUIState
             groupContent.add(text);
         }
 		changeSelection();
+		var infoText:FlxText = new FlxText(10, FlxG.height - 22, 0, "Press F1 to display more info on the current selected content", 16);
+		infoText.setBorderStyle(OUTLINE, FlxColor.BLACK);
+		add(infoText);
     }
 
     override function update(elapsed:Float) {
