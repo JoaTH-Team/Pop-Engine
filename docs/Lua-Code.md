@@ -1,4 +1,6 @@
 # Lua Code API
+> Right now this documment wiki is only work on `v1.0.0`, `v2.0.0` is a reworked version
+
 Lot of lua, also check [Example code from Pop Engine](Example.md) for more detail
 
 ## Common callback

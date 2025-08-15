@@ -1,4 +1,6 @@
 # Example stuff for Pop Engine
+> Right now this documment wiki is only work on `v1.0.0`, `v2.0.0` is a reworked version
+
 ### Note
 For each game content create, you must have a `FirstState.hxs` or `FirstState.lua` when run your game content
 
