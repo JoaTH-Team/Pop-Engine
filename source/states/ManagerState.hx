@@ -10,6 +10,8 @@ import flixel.math.FlxMath;
 import flixel.system.FlxModding;
 import flixel.system.FlxModpack;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import objects.ContentIcon;
 import objects.PopText;
@@ -86,7 +88,17 @@ class ManagerState extends FlxUIState
 			try
 			{
 				Paths.dirPath = FlxModding.get(contentArray[curSelected]).directory();
-				FlxG.switchState(() -> new GameState("FirstState"));
+				FlxTween.tween(camera, {zoom: 1.25}, 0.5, {
+					ease: FlxEase.sineInOut,
+					onStart: function(tween:FlxTween)
+					{
+						camera.fade(FlxColor.BLACK, 0.5);
+					},
+					onComplete: function(tween:FlxTween)
+					{
+						FlxG.switchState(() -> new GameState("FirstState"));
+					}
+				});
 			}
 			catch (e) {}
 		}

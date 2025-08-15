@@ -1,6 +1,6 @@
 package states;
 
-import backend.HScript;
+import backend.HScriptIris;
 import flixel.addons.ui.FlxUIState;
 import sys.FileSystem;
 
@@ -10,8 +10,8 @@ class GameState extends FlxUIState
 {
 	public static var instance:GameState;
 
-	public var scriptArray:Array<HScript> = [];
-	public var scriptState:HScript;
+	public var scriptArray:Array<HScriptIris> = [];
+	public var scriptState:HScriptIris;
 	public var stateName:String = '';
 
 	public function new(file:String)
@@ -22,7 +22,7 @@ class GameState extends FlxUIState
 
 		stateName = file.split('/').pop().split('\\').pop().split('.')[0];
 
-		scriptState = new HScript(Paths.data('states/${file}.hxs'));
+		scriptState = new HScriptIris(Paths.data('states/${file}.hxs'));
 
 		var foldersToCheck:Array<String> = [Paths.file('data/scripts/$stateName/'), Paths.file('data/scripts/global/')];
 		for (folder in foldersToCheck)
@@ -34,7 +34,7 @@ class GameState extends FlxUIState
 					var fullPath:String = folder + file;
 					if (file.endsWith('.hxs'))
 					{
-						scriptArray.push(new HScript(fullPath));
+						scriptArray.push(new HScriptIris(fullPath));
 					}
 				}
 			}

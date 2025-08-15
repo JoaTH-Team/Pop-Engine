@@ -20,6 +20,7 @@
 	<haxelib name="hscript-iris" />
 	<haxelib name="hxvlc" />
 	<haxelib name="hscript-iris" />
+	<haxelib name="hscript" />
 	
 	<section if="cpp">
 		<haxelib name="hxvlc" if="desktop || mobile" />

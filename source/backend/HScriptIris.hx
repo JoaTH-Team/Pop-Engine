@@ -7,24 +7,38 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.addons.display.waveform.FlxWaveform;
+import flixel.effects.FlxFlicker;
+import flixel.group.FlxContainer;
+import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.sound.FlxSound;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.system.FlxAssets;
 import flixel.system.FlxModding;
+import flixel.text.FlxInputText;
 import flixel.text.FlxText;
 import flixel.util.FlxSave;
+import hxvlc.flixel.FlxVideo;
+import hxvlc.flixel.FlxVideoSprite;
 import objects.PopSprite;
 import objects.PopText;
+import popengine.FlxScriptColor;
 import states.GameState;
 import states.GameSubState;
 import sys.io.File;
 
 using StringTools;
 
-class HScript extends Iris
+/**
+ * HScript Iris is a Iris extends of the `hscript-iris` library
+ * 
+ * Is a default HScript classes use on Pop Engine
+ */
+class HScriptIris extends Iris
 {
 	var locals(get, set):Map<String, LocalVar>;
 
@@ -89,7 +103,7 @@ class HScript extends Iris
 
 		set("importScript", function(scriptFile:String)
 		{
-			var hscript:HScript = new HScript(backend.Paths.data('$scriptFile.hxs'));
+			var hscript:HScriptIris = new HScriptIris(backend.Paths.data('$scriptFile.hxs'));
 			hscript.execute();
 			hscript.getAll();
 			GameState.instance.scriptArray.push(hscript);
@@ -108,6 +122,7 @@ class HScript extends Iris
 		set("FlxG", FlxG);
 		set("FlxSprite", FlxSprite);
 		set("FlxText", FlxText);
+		set("FlxInputText", FlxInputText);
 		set("FlxCamera", FlxCamera);
 		set("FlxModding", FlxModding);
 		set("FlxRuntimeShader", FlxRuntimeShader);
@@ -119,6 +134,15 @@ class HScript extends Iris
 		set("FlxBasic", FlxBasic);
 		set("FlxAssets", FlxAssets);
 		set("FlxWaveform", FlxWaveform);
+		set("FlxVideoSprite", FlxVideoSprite);
+		set("FlxVideo", FlxVideo);
+		set("FlxColor", FlxScriptColor);
+		set("FlxGroup", FlxGroup);
+		set("FlxTypedGroup", FlxTypedGroup);
+		set("FlxContainer", FlxContainer);
+		set("FlxSpriteGroup", FlxSpriteGroup);
+		set("FlxFlicker", FlxFlicker);
+		set("FlxBackdrop", FlxBackdrop);
 
 		set("state", GameState.instance);
 		set("subState", GameSubState.instance);
