@@ -28,6 +28,10 @@ class ManagerState extends FlxUIState
 		{
 			return;
 		}
+		Sys.println("Pop Engine HScript use type: " + Argument.hscriptType);
+
+		FlxG.resizeGame(800, 600);
+		FlxG.resizeWindow(800, 600);
 
         FlxModding.reload();
 

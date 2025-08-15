@@ -1,5 +1,7 @@
 package states;
 
+import backend.Argument;
+import backend.HScriptFlixel;
 import backend.HScriptIris;
 import flixel.addons.ui.FlxUISubState;
 import sys.FileSystem;
@@ -10,8 +12,8 @@ class GameSubState extends FlxUISubState
 {
 	public static var instance:GameSubState;
 
-	public var scriptArray:Array<HScriptIris> = [];
-	public var scriptState:HScriptIris;
+	public var scriptArray:Array<Dynamic> = [];
+	public var scriptState:Dynamic;
 	public var stateName:String = '';
 
 	public function new(file:String)
@@ -22,7 +24,14 @@ class GameSubState extends FlxUISubState
 
 		stateName = file.split('/').pop().split('\\').pop().split('.')[0];
 
-		scriptState = new HScriptIris(Paths.data('states/${file}.hxs'));
+		if (Argument.hscriptType == "flixel")
+		{
+			scriptState = new HScriptFlixel(Paths.data('states/${file}.hxs'));
+		}
+		else
+		{
+			scriptState = new HScriptIris(Paths.data('states/${file}.hxs'));
+		}
 
 		var foldersToCheck:Array<String> = [Paths.file('data/scripts/$stateName/'), Paths.file('data/scripts/global/')];
 		for (folder in foldersToCheck)
@@ -34,7 +43,14 @@ class GameSubState extends FlxUISubState
 					var fullPath:String = folder + file;
 					if (file.endsWith('.hxs'))
 					{
-						scriptArray.push(new HScriptIris(fullPath));
+						if (Argument.hscriptType == "flixel")
+						{
+							scriptArray.push(new HScriptFlixel(fullPath));
+						}
+						else
+						{
+							scriptArray.push(new HScriptIris(fullPath));
+						}
 					}
 				}
 			}
