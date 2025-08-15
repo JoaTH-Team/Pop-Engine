@@ -1,7 +1,7 @@
 # HScript Code API
 > Right now this documment wiki is only work on `v1.0.0`, `v2.0.0` is a reworked version
 
-Some hscript stuff, also check [Example code from Pop Engine](Example.md) for more detail
+Some hscript stuff, also check [Example code from Pop Engine](https://github.com/JoaTH-Team/Pop-Engine/wiki/Example) for more detail
 
 ## Classes are imported
 - HaxeFlixel: `FlxG`, `FlxSprite`, `FlxCamera`, `FlxObject`, `FlxBasic`, `FlxText`, `FlxSound`, `FlxTimer`, `FlxMath`, `FlxAssets`, `FlxRuntimeShader`, `FlxColor` (Custom one), `FlxTextAlign` (Custom one)
