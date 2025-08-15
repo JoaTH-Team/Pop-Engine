@@ -11,11 +11,13 @@ import flixel.system.FlxModding;
 import flixel.system.FlxModpack;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import objects.ContentIcon;
 import objects.PopText;
 
 class ManagerState extends FlxUIState
 {
     var contentArray:Array<String> = [];
+	var iconArray:Array<ContentIcon> = [];
     var groupContent:FlxTypedGroup<PopText>;
     var curSelected:Int = 0;
 
@@ -48,6 +50,10 @@ class ManagerState extends FlxUIState
             text.ID = i;
             text.asMenuItem = true;
             groupContent.add(text);
+			var icon:ContentIcon = new ContentIcon(FlxModding.get(contentArray[i]).iconDirectory());
+			icon.sprTracker = text;
+			iconArray.push(icon);
+			add(icon);
         }
 		changeSelection();
 		var infoText:FlxText = new FlxText(10, FlxG.height - 22, 0, "Press F1 to display more info on the current selected content", 16);
@@ -90,6 +96,13 @@ class ManagerState extends FlxUIState
         curSelected = FlxMath.wrap(curSelected + change, 0, contentArray.length - 1);
 
 		var inSelected:Int = 0;
+		for (i in 0...iconArray.length)
+		{
+			iconArray[i].alpha = 0.6;
+		}
+
+		iconArray[curSelected].alpha = 1;
+
         groupContent.forEach(function (text:PopText) {
 			text.targetY = inSelected - curSelected;
 			inSelected += 1;
