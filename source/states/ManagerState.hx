@@ -12,7 +12,6 @@ import flixel.system.FlxModpack;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import objects.PopText;
-import sys.FileSystem;
 
 class ManagerState extends FlxUIState
 {
