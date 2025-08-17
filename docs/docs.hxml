@@ -21,7 +21,6 @@
 --remap flash:openfl
 --macro flixel.system.macros.FlxDefines.run()
 
---macro include('hxvlc')
 --macro include('backend')
 --macro include('objects')
 --macro include('popengine')
