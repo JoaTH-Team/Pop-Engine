@@ -22,6 +22,10 @@
 --macro flixel.system.macros.FlxDefines.run()
 
 --macro include('hxvlc')
+--macro include('backend')
+--macro include('objects')
+--macro include('popengine')
+--macro include('states')
 --macro include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*'])
 --macro keep('Main')
 
