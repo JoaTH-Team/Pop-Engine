@@ -1,0 +1,51 @@
+name: github-pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    concurrency: ci-${{ github.ref }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+      
+      - uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.6
+      
+      - name: Install Haxe Libraries
+        run: |
+          haxelib setup ~/haxelib
+          haxelib install hxcpp > /dev/null
+          haxelib install lime
+          haxelib install openfl
+          haxelib install flixel
+          haxelib install flixel-addons
+          haxelib install flixel-ui
+          haxelib install flixel-modding
+          haxelib install flixel-waveform
+          haxelib install hscript
+          haxelib install hscript-iris
+          haxelib install hxvlc
+          haxelib install dox
+          haxelib install format
+          haxelib list
+      
+      - name: Create Documentation Site
+        run: |
+            chmod +x docs/docs.sh
+            docs/docs.sh
+      
+      - name: github-actions deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: pages
+          token: ${{ secrets.GH_PAT }}
