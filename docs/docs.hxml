@@ -27,6 +27,7 @@
 --macro include('popengine')
 --macro include('states')
 --macro include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*'])
+--macro allowPackage('flash')
 --macro keep('Main')
 
 --no-output
