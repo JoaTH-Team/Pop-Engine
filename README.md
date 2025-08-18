@@ -12,4 +12,4 @@ Pop Engine is a scripted game engine with HScript to coding stuff and stuff
 
 ## Credits
 - Huy1234TH: Create this project (Main Owner)
-- Joalor64GH: Some script code i use
+- Joalor64GH: Some script code i use, help code the API page
