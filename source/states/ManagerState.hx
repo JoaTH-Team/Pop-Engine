@@ -23,6 +23,8 @@ class ManagerState extends FlxUIState
     var groupContent:FlxTypedGroup<PopText>;
     var curSelected:Int = 0;
 
+	var emptylist:Bool = false;
+
     override function create() {
 		if (Argument.parseCommand(Sys.args()))
 		{
@@ -64,7 +66,8 @@ class ManagerState extends FlxUIState
 		changeSelection();
 		var infoText:FlxText = new FlxText(10, FlxG.height - 22, 0, "Press F1 to display more info on the current selected content", 16);
 		infoText.setBorderStyle(OUTLINE, FlxColor.BLACK);
-		add(infoText);
+		if (!emptylist)
+			add(infoText);
     }
 
     override function update(elapsed:Float) {
@@ -72,7 +75,7 @@ class ManagerState extends FlxUIState
 		if (FlxG.keys.justPressed.UP || FlxG.keys.justPressed.DOWN)
 			changeSelection(FlxG.keys.justPressed.UP ? -1 : 1);
 
-		if (FlxG.keys.justPressed.F1)
+		if (FlxG.keys.justPressed.F1 && !emptylist)
 		{
 			var getMods = FlxModding.get(contentArray[curSelected]);
 			ManagerSubState.config = [
@@ -109,26 +112,47 @@ class ManagerState extends FlxUIState
     }
 
     function changeSelection(change:Int = 0) {
-        curSelected = FlxMath.wrap(curSelected + change, 0, contentArray.length - 1);
-
-		var inSelected:Int = 0;
-		for (i in 0...iconArray.length)
+		try
 		{
-			iconArray[i].alpha = 0.6;
+			curSelected = FlxMath.wrap(curSelected + change, 0, contentArray.length - 1);
+
+			var inSelected:Int = 0;
+			for (i in 0...iconArray.length)
+			{
+				iconArray[i].alpha = 0.6;
+			}
+
+			iconArray[curSelected].alpha = 1;
+
+			groupContent.forEach(function(text:PopText)
+			{
+				text.targetY = inSelected - curSelected;
+				inSelected += 1;
+				if (text.ID == curSelected)
+				{
+					text.color = FlxColor.YELLOW;
+					text.alpha = 1;
+				}
+				else
+				{
+					text.color = FlxColor.WHITE;
+					text.alpha = 0.5;
+				}
+			});
 		}
+		catch (e)
+		{
+			trace("Empty List");
 
-		iconArray[curSelected].alpha = 1;
+			var text:FlxText = new FlxText(0, 0, 0, "DIDN'T FOUND ANY CONTENT\nCREATE ONE AND THEN PRESS F5 TO RELOAD", 24);
+			text.color = FlxColor.RED;
+			text.setBorderStyle(OUTLINE, FlxColor.BLACK);
+			text.alignment = CENTER;
+			text.screenCenter();
+			text.updateHitbox();
+			add(text);
 
-        groupContent.forEach(function (text:PopText) {
-			text.targetY = inSelected - curSelected;
-			inSelected += 1;
-            if (text.ID == curSelected) {
-                text.color = FlxColor.YELLOW;
-                text.alpha = 1;
-            } else {
-                text.color = FlxColor.WHITE;
-                text.alpha = 0.5;
-            }
-        });
+			emptylist = true;
+		}
     }
 }
