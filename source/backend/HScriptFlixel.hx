@@ -1,5 +1,6 @@
 package backend;
 
+import flixel.FlxG;
 import flixel.addons.display.FlxRuntimeShader;
 import flixel.addons.display.waveform.FlxWaveform;
 import flixel.system.FlxAssets.FlxShader;
@@ -11,6 +12,8 @@ import objects.PopText;
 import states.GameState;
 import states.GameSubState;
 
+using StringTools;
+
 /**
  * HScriptFlixel is a extends class `FlxHScript` of the `flixel-modding` library
  * 
@@ -20,6 +23,8 @@ class HScriptFlixel extends FlxHScript
 {
     public function new(FileName:String) {
         super(FileName);
+		parser.allowTypes = true;
+
 		// Video
 		FlxHScript.setGlobalVariable("FlxVideoSprite", FlxVideoSprite);
 		FlxHScript.setGlobalVariable("FlxVideo", FlxVideo);
@@ -44,6 +49,26 @@ class HScriptFlixel extends FlxHScript
 		setVariable("removeVar", GameVar.removeVar);
 		setVariable("existsVar", GameVar.existsVar);
 		setVariable("clearVar", GameVar.clearVar);
+
+		setVariable("import", function(daClass:String, ?asDa:String)
+		{
+			final splitClassName = [for (e in daClass.split('.')) e.trim()];
+			final className = splitClassName.join('.');
+			final daClassObj:Class<Dynamic> = Type.resolveClass(className);
+			final daEnum:Enum<Dynamic> = Type.resolveEnum(className);
+
+			if (daClassObj == null && daEnum == null)
+				FlxG.stage.application.window.alert('Class / Enum at $className does not exist.', 'HScript Error!');
+			else if (daEnum != null)
+			{
+				var daEnumField = {};
+				for (daConstructor in daEnum.getConstructors())
+					Reflect.setField(daEnumField, daConstructor, daEnum.createByName(daConstructor));
+				setVariable(asDa != null && asDa != '' ? asDa : splitClassName[splitClassName.length - 1], daEnumField);
+			}
+			else
+				setVariable(asDa != null && asDa != '' ? asDa : splitClassName[splitClassName.length - 1], daClassObj);
+		});
 
 		loadGlobals();
     }
