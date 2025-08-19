@@ -20,6 +20,14 @@ jobs:
       - uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.3.6
+
+      - name: Restore Previous Cache
+        id: cache-build-restore
+        uses: actions/cache/restore@main
+        with:
+          path: |
+            .haxelib/
+          key: cache-page
       
       - name: Install Haxe Libraries
         run: |
@@ -49,3 +57,17 @@ jobs:
         with:
           folder: pages
           token: ${{ secrets.GH_PAT }}
+
+      - name: Clear Previous Cache
+        uses: actions/github-script@main
+        with:
+          script: await require('./actions/clearCache.js')({github, context}, 'cache-page');
+
+      - name: Save Current Cache
+        uses: actions/cache@main
+        with:
+          key: cache-page
+          path: |
+            .haxelib/
+          restore-keys: |
+            cache-page
