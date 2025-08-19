@@ -42,11 +42,16 @@ class ManagerState extends FlxUIState
 			contentArray.push(mod.name);
 		});
 
+		contentArray.push("Options Menu");
+
         super.create();
 
-		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33C4C4C4, 0x0));
-		grid.velocity.set(40, 40);
-		add(grid);
+		if (!SaveData.getData("disableOverlayGrid"))
+		{
+			var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33C4C4C4, 0x0));
+			grid.velocity.set(40, 40);
+			add(grid);
+		}
 
         groupContent = new FlxTypedGroup<PopText>();
         add(groupContent);
@@ -58,11 +63,21 @@ class ManagerState extends FlxUIState
             text.ID = i;
             text.asMenuItem = true;
             groupContent.add(text);
-			var icon:ContentIcon = new ContentIcon(FlxModding.get(contentArray[i]).iconDirectory());
-			icon.sprTracker = text;
-			iconArray.push(icon);
-			add(icon);
-        }
+			if (contentArray[i] != "Options Menu")
+			{
+				var icon:ContentIcon = new ContentIcon(FlxModding.get(contentArray[i]).iconDirectory());
+				icon.sprTracker = text;
+				iconArray.push(icon);
+				add(icon);
+			}
+			else
+			{
+				var icon:ContentIcon = new ContentIcon(null);
+				icon.sprTracker = text;
+				iconArray.push(icon);
+				add(icon);
+			}
+		}
 		changeSelection();
 		var infoText:FlxText = new FlxText(10, FlxG.height - 22, 0, "Press F1 to display more info on the current selected content", 16);
 		infoText.setBorderStyle(OUTLINE, FlxColor.BLACK);
@@ -94,18 +109,25 @@ class ManagerState extends FlxUIState
 		{
 			try
 			{
-				Paths.dirPath = FlxModding.get(contentArray[curSelected]).directory();
-				FlxTween.tween(camera, {zoom: 1.25}, 0.5, {
-					ease: FlxEase.sineInOut,
-					onStart: function(tween:FlxTween)
-					{
-						camera.fade(FlxColor.BLACK, 0.5);
-					},
-					onComplete: function(tween:FlxTween)
-					{
-						FlxG.switchState(() -> new GameState("FirstState"));
-					}
-				});
+				if (contentArray[curSelected] != "Options Menu")
+				{
+					Paths.dirPath = FlxModding.get(contentArray[curSelected]).directory();
+					FlxTween.tween(camera, {zoom: 1.25}, 0.5, {
+						ease: FlxEase.sineInOut,
+						onStart: function(tween:FlxTween)
+						{
+							camera.fade(FlxColor.BLACK, 0.5);
+						},
+						onComplete: function(tween:FlxTween)
+						{
+							FlxG.switchState(() -> new GameState("FirstState"));
+						}
+					});
+				}
+				else
+				{
+					FlxG.switchState(() -> new ManagerOptionsState());
+				}
 			}
 			catch (e) {}
 		}

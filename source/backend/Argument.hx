@@ -21,6 +21,7 @@ class Argument {
 				if (type == "flixel" || type == "iris")
 				{
 					hscriptType = type;
+					SaveData.setData("hscriptType", hscriptType);
 				}
 				args.splice(i, 2);
 			}

@@ -3,7 +3,6 @@ package;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.system.FlxModding;
-import haxe.CallStack.StackItem;
 import haxe.CallStack;
 import haxe.io.Path;
 import openfl.display.Sprite;
@@ -24,6 +23,10 @@ class Main extends Sprite
 		FlxModding.init(true, "assets", "content");
 
 		hxvlc.util.Handle.init();
+
+		SaveData.bind("PopEngineData", "Pop Engine Data");
+		SaveData.reBindData("hscriptType");
+		SaveData.reBindData("disableOverlayGrid");
 
 		game = new FlxGame(0, 0, states.ManagerState, 60, 60, false, false);
 		addChild(game);
