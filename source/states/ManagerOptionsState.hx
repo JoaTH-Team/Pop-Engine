@@ -32,7 +32,7 @@ class ManagerOptionsState extends FlxState
 
         optionsGroup.forEach(function(text:PopText) {
             if (text.ID == 0)
-                text.text = 'HScript Type: ${Argument.hscriptType}';
+				text.text = 'HScript Type: ${SaveData.getData("hscriptType")}';
             else if (text.ID == 1)
                 text.text = 'Disable Overlay Grid: ${SaveData.getData("disableOverlayGrid") ? "ON" : "OFF"}';
         });
