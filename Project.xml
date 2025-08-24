@@ -15,7 +15,7 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="flixel-modding" />
+	<haxelib name="flixel-modding" version="1.3.0" />
 	<haxelib name="flixel-waveform" />
 	<haxelib name="hscript-iris" />
 	<haxelib name="hxvlc" />
